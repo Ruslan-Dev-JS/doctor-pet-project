@@ -48,11 +48,14 @@ function formatBookingText(data: {
 /** Відправка у Telegram через Bot API */
 async function notifyTelegram(text: string): Promise<void> {
   const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-  if (!token || !chatId) return;
+  const chatId = process.env.TELEGRAM_CHAT_ID?.trim();
+  if (!token || !chatId) {
+    console.warn('[Telegram] Пропущено: не задано TELEGRAM_BOT_TOKEN або TELEGRAM_CHAT_ID у .env.local');
+    return;
+  }
 
   const url = `https://api.telegram.org/bot${token}/sendMessage`;
-  await fetch(url, {
+  const res = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -60,6 +63,13 @@ async function notifyTelegram(text: string): Promise<void> {
       text,
     }),
   });
+
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || !data.ok) {
+    console.error('[Telegram] Помилка відправки:', data.description || data || res.status);
+    return;
+  }
+  console.log('[Telegram] Повідомлення надіслано успішно');
 }
 
 /** Відправка у Slack через Incoming Webhook */
