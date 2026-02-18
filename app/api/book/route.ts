@@ -21,6 +21,59 @@ function validate(body: unknown): body is BookBody {
   );
 }
 
+/** Текст заявки для месенджерів (звичайний текст, без розмітки) */
+function formatBookingText(data: {
+  name: string;
+  phone: string;
+  email: string;
+  preferredDate?: string;
+  message?: string;
+}): string {
+  const lines = [
+    '🦷 Нова заявка на прийом',
+    '',
+    `👤 Ім'я: ${data.name}`,
+    `📞 Телефон: ${data.phone}`,
+    `✉️ Email: ${data.email}`,
+  ];
+  if (data.preferredDate) {
+    lines.push(`📅 Бажана дата: ${data.preferredDate}`);
+  }
+  if (data.message) {
+    lines.push(`💬 Повідомлення: ${data.message}`);
+  }
+  return lines.join('\n');
+}
+
+/** Відправка у Telegram через Bot API */
+async function notifyTelegram(text: string): Promise<void> {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId) return;
+
+  const url = `https://api.telegram.org/bot${token}/sendMessage`;
+  await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: chatId,
+      text,
+    }),
+  });
+}
+
+/** Відправка у Slack через Incoming Webhook */
+async function notifySlack(text: string): Promise<void> {
+  const webhookUrl = process.env.SLACK_WEBHOOK_URL;
+  if (!webhookUrl) return;
+
+  await fetch(webhookUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text }),
+  });
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -31,18 +84,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { name, phone, email, preferredDate, message } = body;
+    const name = body.name.trim();
+    const phone = body.phone.trim();
+    const email = body.email.trim();
+    const preferredDate = body.preferredDate?.trim();
+    const message = body.message?.trim();
 
-    // Тут можна зберегти в БД або відправити в CRM/email
-    // Наприклад: await saveToDatabase({ name, phone, email, preferredDate, message });
-    // Для прикладу лише лог і успішна відповідь
-    console.log('[BOOK]', {
-      name: name.trim(),
-      phone: phone.trim(),
-      email: email.trim(),
-      preferredDate: preferredDate?.trim() || null,
-      message: message?.trim() || null,
-    });
+    const payload = { name, phone, email, preferredDate, message };
+    console.log('[BOOK]', payload);
+
+    const notificationText = formatBookingText(payload);
+
+    await Promise.all([
+      notifyTelegram(notificationText),
+      notifySlack(notificationText),
+    ]);
 
     return NextResponse.json({
       success: true,
