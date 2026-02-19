@@ -1,6 +1,6 @@
 export function Contact() {
   return (
-    <section className="contact">
+    <section className="contact" id="contact">
       <h2>Контакти</h2>
       <div className="contact-grid">
         <div className="contact-item">
@@ -12,17 +12,16 @@ export function Contact() {
           <a href="tel:+380736237984">+38 (073) 623-79-84</a>
         </div>
         <div className="contact-item">
-        <span className="contact-label">Адреса</span>
-<address>
-<a
-    href="https://www.google.com/maps/search/?api=1&query=Київська+обласна+клінічна+лікарня,+вул.+Загорівська+1,+Київ"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    Київська обласна клінічна лікарня, вул. Загорівська 1, Київ
-  </a>
-
-</address>
+          <span className="contact-label">Адреса</span>
+          <address>
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Київська+обласна+клінічна+лікарня,+вул.+Загорівська+1,+Київ"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Київська обласна клінічна лікарня, вул. Загорівська 1, Київ
+            </a>
+          </address>
         </div>
         <div className="contact-item contact-item--schedule">
           <span className="contact-label">Графік роботи</span>
@@ -35,3 +34,5 @@ export function Contact() {
     </section>
   );
 }
+
+
