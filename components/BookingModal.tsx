@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export type BookingFormData = {
   name: string;
@@ -73,6 +73,21 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
     setErrorText('');
   }, [onClose]);
 
+  const firstInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') handleClose();
+    };
+    document.addEventListener('keydown', handleEscape);
+    const t = setTimeout(() => firstInputRef.current?.focus(), 100);
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      clearTimeout(t);
+    };
+  }, [isOpen, handleClose]);
+
   if (!isOpen) return null;
 
   return (
@@ -97,6 +112,7 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
             <label>
               Ім&apos;я *
               <input
+                ref={firstInputRef}
                 type="text"
                 name="name"
                 value={form.name}
@@ -104,6 +120,7 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 required
                 placeholder="Ваше ім'я"
                 disabled={status === 'loading'}
+                autoComplete="name"
               />
             </label>
             <label>
@@ -116,6 +133,7 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 required
                 placeholder="+38 (0__) ___-__-__"
                 disabled={status === 'loading'}
+                autoComplete="tel"
               />
             </label>
             <label>
@@ -128,6 +146,7 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 required
                 placeholder="email@example.com"
                 disabled={status === 'loading'}
+                autoComplete="email"
               />
             </label>
             <label>

@@ -7,8 +7,8 @@ export function Doctor() {
   ];
 
   return (
-    <section className="section">
-      <h2 className="section-title">Про мене</h2>
+    <section className="section" aria-labelledby="about-title">
+      <h2 id="about-title" className="section-title">Про мене</h2>
       <div className="about-section">
         <div>
           <ul className="about-list">
@@ -19,8 +19,9 @@ export function Doctor() {
         </div>
         <div className="about-photo">
           <img
-            src="/img/IMG_1189.jpeg"
+            src="/img/Doctor.jpg"
             alt="Лікар під час роботи"
+            loading="lazy"
           />
         </div>
       </div>

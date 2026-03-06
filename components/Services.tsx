@@ -8,8 +8,8 @@ export function Services() {
   ];
 
   return (
-    <section className="section services-section">
-      <h2 className="section-title section-title--center">Мої послуги</h2>
+    <section className="section services-section" aria-labelledby="services-title">
+      <h2 id="services-title" className="section-title section-title--center">Мої послуги</h2>
       <div className="services-grid-icons">
         {items.map((item) => (
           <div key={item.label} className="service-icon-item">

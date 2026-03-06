@@ -290,6 +290,16 @@ button:focus-visible,
   padding: 60px var(--section-padding-x);
 }
 
+.features-dark-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--color-white);
+  margin: 0 auto 32px;
+  max-width: var(--max-width);
+  padding: 0 var(--section-padding-x);
+}
+
 .features-dark .features-inner {
   max-width: var(--max-width);
   margin: 0 auto;

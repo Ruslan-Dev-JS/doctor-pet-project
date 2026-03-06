@@ -5,9 +5,9 @@ import { useBooking } from '@/components/BookingContext';
 export function Hero() {
   const { openBooking } = useBooking();
   return (
-    <section className="hero-block">
+    <section className="hero-block" aria-labelledby="hero-title">
       <div className="hero-content">
-        <h1>Линник Анастасія Віталіївна</h1>
+        <h1 id="hero-title">Линник Анастасія Віталіївна</h1>
         <p className="hero-subtitle">Лікар стоматолог-хірург, пародонтолог</p>
         <p className="hero-subtitle">Експерт з мікрохірургії ясен та імплантології</p>
         <div className="hero-actions">
@@ -21,7 +21,7 @@ export function Hero() {
       </div>
       <div className="hero-photo-wrap">
         <img
-          src="/img/IMG_1189.jpeg"
+          src="/img/Doctor-hero.jpg"
           alt="Линник Анастасія Віталіївна — лікар-пародонтолог"
         />
       </div>

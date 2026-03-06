@@ -7,14 +7,14 @@ import { CtaSection } from '@/components/CtaSection';
 
 export default function Home() {
   return (
-    <>
+    <main>
       <Hero />
       <Doctor />
       <Services />
       <FeaturesDark />
       <Contact />
       <CtaSection />
-    </>
+    </main>
   );
 }
 

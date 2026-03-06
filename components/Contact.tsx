@@ -1,15 +1,15 @@
 export function Contact() {
   return (
-    <section className="contact" id="contact">
-      <h2>Контакти</h2>
+    <section className="contact" id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title" className="section-title section-title--center">Контакти</h2>
       <div className="contact-grid">
         <div className="contact-item">
           <span className="contact-label">Email</span>
-          <a href="mailto:info@example.com">enn2606@gmail.com</a>
+          <a href="mailto:enex.pet@gmail.com">enex.pet@gmail.com</a>
         </div>
         <div className="contact-item">
           <span className="contact-label">Телефон</span>
-          <a href="tel:+380736237984">+38 (073) 623-79-84</a>
+          <a href="tel:+380763237984">+38 (076) 323-79-84</a>
         </div>
         <div className="contact-item">
           <span className="contact-label">Адреса</span>
